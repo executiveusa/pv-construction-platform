@@ -1,0 +1,164 @@
+# =============================================================================
+# Tiledesk Self-Hosted — Docker Compose (pinned images, no fork)
+# Based on https://github.com/Tiledesk/tiledesk/tree/master/docker-compose
+# =============================================================================
+
+version: "3.8"
+
+services:
+  proxy:
+    image: tiledesk/tiledesk-docker-proxy:v1.1.2
+    container_name: td-proxy
+    ports:
+      - "${TILEDESK_PORT:-8081}:80"
+    depends_on:
+      - server
+      - dashboard
+      - webwidget
+      - chat21httpserver
+    restart: unless-stopped
+
+  server:
+    image: tiledesk/tiledesk-server:2.13.23-op1
+    container_name: td-server
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/tiledesk
+      - CHAT21_URL=http://chat21httpserver:8004
+      - CHAT21_APPID=tilechat
+      - CHAT21_ADMIN_TOKEN=${CHAT21_ADMIN_TOKEN:-chat21-secret-orgAa}
+      - EMAIL_ENABLED=false
+      - GPTKEY=${TILEDESK_GPTKEY:-}
+      - BRAND_NAME=PV Construcción
+      - LOG_LEVEL=info
+    depends_on:
+      - mongo
+      - redis
+      - rabbitmq
+    restart: unless-stopped
+
+  dashboard:
+    image: tiledesk/tiledesk-dashboard:2.7.134-stage
+    container_name: td-dashboard
+    environment:
+      - API_BASEIMAGE_URL=${EXTERNAL_BASE_URL:-http://localhost:8081}/
+      - BRAND_SRC=PV Construcción
+      - WIDGET_LOCATION=${EXTERNAL_BASE_URL:-http://localhost:8081}/widget/launch.js
+      - CHAT_BASE_URL=${EXTERNAL_BASE_URL:-http://localhost:8081}/chat/
+    restart: unless-stopped
+
+  cds:
+    image: tiledesk/design-studio:1.39.9-rc3
+    container_name: td-design-studio
+    environment:
+      - API_BASE_URL=${EXTERNAL_BASE_URL:-http://localhost:8081}/
+      - BRAND_SRC=PV Construcción
+    restart: unless-stopped
+
+  webwidget:
+    image: chat21/chat21-web-widget:5.1.2
+    container_name: td-widget
+    environment:
+      - MQTT_APPID=tilechat
+      - API_URL=${EXTERNAL_BASE_URL:-http://localhost:8081}/chatapi/api/
+      - MQTT_ENDPOINT=${EXTERNAL_MQTT_BASE_URL:-ws://localhost:8081}/mqws/ws
+      - BRAND_SRC=PV Construcción
+    restart: unless-stopped
+
+  ionic:
+    image: chat21/chat21-ionic:3.4.22
+    container_name: td-ionic
+    environment:
+      - API_URL=${EXTERNAL_BASE_URL:-http://localhost:8081}/chatapi/api/
+      - MQTT_WS_URL=${EXTERNAL_MQTT_BASE_URL:-ws://localhost:8081}/mqws/ws
+    restart: unless-stopped
+
+  chatbot:
+    image: tiledesk/tiledesk-chatbot:2.0.32-rc8
+    container_name: td-chatbot
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/tiledesk
+      - TILEDESK_API_URL=http://server:3000
+      - CHAT21_URL=http://chat21httpserver:8004
+      - CHAT21_APPID=tilechat
+      - CHAT21_ADMIN_TOKEN=${CHAT21_ADMIN_TOKEN:-chat21-secret-orgAa}
+    depends_on:
+      - mongo
+      - server
+    restart: unless-stopped
+
+  chat21httpserver:
+    image: chat21/chat21-http-server:0.2.37
+    container_name: td-chat21http
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/chat21
+      - RABBITMQ_URI=amqp://admin:${RABBITMQ_PASS:-password}@rabbitmq:5672
+      - ADMIN_TOKEN=${CHAT21_ADMIN_TOKEN:-chat21-secret-orgAa}
+    depends_on:
+      - mongo
+      - rabbitmq
+    restart: unless-stopped
+
+  chat21server:
+    image: chat21/chat21-server:0.2.53
+    container_name: td-chat21server
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/chat21
+      - RABBITMQ_URI=amqp://admin:${RABBITMQ_PASS:-password}@rabbitmq:5672
+      - ADMIN_TOKEN=${CHAT21_ADMIN_TOKEN:-chat21-secret-orgAa}
+    depends_on:
+      - mongo
+      - rabbitmq
+    restart: unless-stopped
+
+  backend-llm-train:
+    image: tiledesk/tiledesk-backend-llm:0.5.3-rc1
+    container_name: td-llm-train
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - GPTKEY=${TILEDESK_GPTKEY:-}
+    profiles: ["llm"]
+    restart: unless-stopped
+
+  backend-llm-qa:
+    image: tiledesk/tiledesk-backend-llm:0.5.3-rc1
+    container_name: td-llm-qa
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - GPTKEY=${TILEDESK_GPTKEY:-}
+    profiles: ["llm"]
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: td-qdrant
+    volumes:
+      - qdrant_data:/qdrant/storage
+    profiles: ["llm"]
+    restart: unless-stopped
+
+  rabbitmq:
+    image: chat21/chat21-rabbitmq
+    container_name: td-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS:-password}
+    volumes:
+      - rmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7.0.2
+    container_name: td-mongo
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.0.5
+    container_name: td-redis
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  rmq_data:
+  qdrant_data:

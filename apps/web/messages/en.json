@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "title": "PV Construction — Trusted Building in Puerto Vallarta",
+    "description": "Leading construction platform for foreign investors in Puerto Vallarta, Bahía de Banderas and Nayarit. New builds, remodeling, luxury projects. 100% legal, fully licensed in Mexico."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "reviews": "Reviews",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "legal": "Legal",
+    "switchLang": "Español"
+  },
+  "hero": {
+    "badge": "🏗️ Puerto Vallarta's #1 Trusted Construction Platform",
+    "title": "Build Your Dream in",
+    "titleHighlight": "Puerto Vallarta",
+    "subtitle": "We connect foreign investors with Mexico's top certified builders. 100% legal, transparent, and socially responsible.",
+    "cta": "Get a Free Quote",
+    "ctaSecondary": "View Our Projects",
+    "trustLine": "200+ completed projects • Verified Mexican licenses • Social purpose company"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "We offer a complete range of construction services for foreign and local investors in the Puerto Vallarta and Bahía de Banderas area.",
+    "newBuild": {
+      "title": "New Construction",
+      "description": "From design to key handover. Residential and luxury builds with premium materials and full permit compliance."
+    },
+    "remodel": {
+      "title": "Remodeling",
+      "description": "Transform your existing property. Full renovations, kitchen and bathroom upgrades, additions and structural improvements."
+    },
+    "luxury": {
+      "title": "Luxury Projects",
+      "description": "Ocean-view villas, premium beach houses, high-end finishes. For clients who demand the extraordinary."
+    },
+    "commercial": {
+      "title": "Commercial",
+      "description": "Restaurants, boutique hotels, offices and commercial spaces. Functional design that maximizes your investment."
+    },
+    "permits": {
+      "title": "Permits & Paperwork",
+      "description": "We navigate Mexico's permit system for you. Building permits, environmental impact, land use and more."
+    },
+    "landPurchase": {
+      "title": "Land Purchase",
+      "description": "We advise you on legal land purchases. Bank trust (fideicomiso), due diligence and title verification."
+    }
+  },
+  "trust": {
+    "title": "Why Trust Us?",
+    "subtitle": "We are the most transparent and legally established platform for foreign construction in Puerto Vallarta.",
+    "licensed": {
+      "title": "100% Licensed",
+      "description": "Registered RFC, municipal license, contractors with verified IMSS and INFONAVIT compliance."
+    },
+    "american": {
+      "title": "American-Mexican Team",
+      "description": "We understand both cultures. Bilingual communication and international standards."
+    },
+    "social": {
+      "title": "Social Purpose Company",
+      "description": "For every project, we plant trees and reinvest in the community. Verifiable impact."
+    },
+    "transparent": {
+      "title": "Full Transparency",
+      "description": "Real-time permit tracking, detailed budgets and clear timelines."
+    }
+  },
+  "leadForm": {
+    "title": "Get Your Free Quote",
+    "subtitle": "Tell us about your project and a specialist will contact you within 2 hours.",
+    "step1": "Project Type",
+    "step2": "Budget & Timeline",
+    "step3": "Location",
+    "step4": "Contact Information",
+    "projectType": "What type of project do you need?",
+    "budgetRange": "What is your approximate budget?",
+    "timeline": "When do you want to start? (months)",
+    "timelineMonths": "months",
+    "locationZone": "Which area?",
+    "propertyStatus": "Do you already own the property?",
+    "propertyYes": "Yes, I own the property",
+    "propertyNo": "No, I'm still looking for land",
+    "propertyLooking": "I'm considering options",
+    "fullName": "Full name",
+    "email": "Email address",
+    "phone": "Phone or WhatsApp (with country code)",
+    "preferredContact": "How would you prefer to be contacted?",
+    "preferredLanguage": "What language do you prefer?",
+    "notes": "Tell us more about your project (optional)",
+    "submit": "Submit Request",
+    "next": "Next",
+    "prev": "Back",
+    "success": "Request Submitted!",
+    "successMessage": "A specialist will contact you within the next 2 hours. Thank you for trusting PV Construction.",
+    "error": "Error submitting. Please try again or call us directly."
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "We are an American-Mexican collective of construction professionals, united by the vision of doing things right in Puerto Vallarta.",
+    "mission": "Our Mission",
+    "missionText": "To be the most trusted construction platform for foreign investors in Puerto Vallarta and Nayarit, creating a positive social impact with every project.",
+    "values": "Our Values",
+    "legalTitle": "Legal Commitment",
+    "legalDescription": "We operate as a company incorporated in Mexico (S. de R.L. de C.V.) with RFC, municipal license, SAT registration and contractors registered with IMSS. We are not an informal operation — we are the legal and professional alternative.",
+    "socialTitle": "Social Purpose",
+    "socialDescription": "A portion of profits from every project is reinvested in the community: planting trees to offset cement impact, supporting local families, and verifiable transparency on blockchain."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're ready to help you with your construction project in Puerto Vallarta.",
+    "address": "Puerto Vallarta, Jalisco, Mexico",
+    "phone": "Call Us",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "hours": "Hours: Mon-Sat 8:00 AM - 6:00 PM CST"
+  },
+  "footer": {
+    "tagline": "Trusted construction for foreign investors in Puerto Vallarta, Mexico.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "disclaimer": "Legal Disclaimer",
+    "social": "Follow Us",
+    "copyright": "© 2026 PV Construction. All rights reserved.",
+    "socialPurpose": "Social Purpose Company — A portion of every project is reinvested in the community."
+  },
+  "zones": {
+    "puertoVallarta": "Puerto Vallarta",
+    "zonaRomantica": "Zona Romántica",
+    "marinaVallarta": "Marina Vallarta",
+    "nuevoVallarta": "Nuevo Vallarta",
+    "bucerias": "Bucerías",
+    "puntaDeMita": "Punta de Mita",
+    "sayulita": "Sayulita",
+    "sanPancho": "San Pancho",
+    "laCruz": "La Cruz de Huanacaxtle",
+    "loDeMarcos": "Lo de Marcos",
+    "rinconDeGuayabitos": "Rincón de Guayabitos",
+    "mezcales": "Mezcales",
+    "bahiaDeBanderas": "Bahía de Banderas"
+  },
+  "geo": {
+    "metaTitle": "Construction in {zone} — PV Construction",
+    "metaDescription": "Professional construction services in {zone}. New builds, remodeling and luxury projects for foreign investors. Free quote.",
+    "heading": "Professional Construction in",
+    "intro": "Looking to build or remodel in {zone}? We are the trusted platform connecting foreign investors with the best certified builders in the area.",
+    "cta": "Free Quote for {zone}"
+  },
+  "reviews": {
+    "title": "What Our Clients Say",
+    "subtitle": "Verified reviews from real clients who built their dreams in Puerto Vallarta.",
+    "verified": "SMS Verified",
+    "writeReview": "Write a Review",
+    "noReviews": "Be the first to leave a review."
+  }
+}

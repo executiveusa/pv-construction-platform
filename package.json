@@ -1,0 +1,24 @@
+{
+  "name": "pv-construction-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered bilingual construction lead-generation platform for Puerto Vallarta / Nayarit, Mexico",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=apps/web",
+    "start": "npm run start --workspace=apps/web",
+    "lint": "npm run lint --workspace=apps/web",
+    "db:migrate": "cd infra/postgres && bash migrate.sh",
+    "tiledesk:up": "cd infra/tiledesk && docker compose up -d",
+    "tiledesk:down": "cd infra/tiledesk && docker compose down",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

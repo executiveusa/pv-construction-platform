@@ -1,0 +1,90 @@
+version: "3.8"
+
+# =============================================================================
+# PV Construction Platform — Production Docker Compose
+# Runs Next.js web app + Postgres database
+# =============================================================================
+
+services:
+  # Next.js Web Application
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: pv-web
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-pvplatform}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-pvplatform}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      NEXT_PUBLIC_TILEDESK_BASE_URL: ${NEXT_PUBLIC_TILEDESK_BASE_URL}
+      NEXT_PUBLIC_TILEDESK_PROJECT_ID: ${NEXT_PUBLIC_TILEDESK_PROJECT_ID}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web/.next:/app/.next
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - pv-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: pv-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pvplatform}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-pvplatform}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./infra/postgres/migrations:/docker-entrypoint-initdb.d
+      - ./infra/postgres/backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pvplatform}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - pv-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Optional: Backups cron job (run this separately)
+    # backup: |
+    #   #!/bin/bash
+    #   PGPASSWORD=$POSTGRES_PASSWORD pg_dump -U $POSTGRES_USER -h localhost $POSTGRES_DB | \
+    #   gzip > /backups/backup-$(date +%Y%m%d-%H%M%S).sql.gz
+
+volumes:
+  pg_data:
+    driver: local
+  pg_backups:
+    driver: local
+
+networks:
+  pv-network:
+    driver: bridge
+

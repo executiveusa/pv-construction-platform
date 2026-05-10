@@ -1,0 +1,89 @@
+{
+  "webhook_enabled": false,
+  "language": "es",
+  "name": "captacion-leads-construccion",
+  "description": "Flujo de captación de leads para construcción en Puerto Vallarta",
+  "intents": [
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "\\start",
+      "answer": "¡Hola! 👋 Soy tu asistente de **PV Construcción**.\n\nAyudamos a inversionistas extranjeros y locales a construir, remodelar y desarrollar propiedades en Puerto Vallarta y la Bahía de Banderas.\n\n¿En qué tipo de proyecto estás interesado?\n* Construcción nueva\n* Remodelación\n* Proyecto de lujo\n* Comercial\n* Compra de terreno\n* Solo permisos\n* Otro",
+      "intent_display_name": "start",
+      "language": "es",
+      "form": null
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "Construcción nueva|Nueva construcción|new build",
+      "answer": "¡Excelente! La construcción nueva es nuestra especialidad. 🏗️\n\n¿Cuál es tu presupuesto aproximado?\n* Menos de $50,000 USD\n* $50,000 - $100,000 USD\n* $100,000 - $250,000 USD\n* $250,000 - $500,000 USD\n* $500,000 - $1,000,000 USD\n* Más de $1,000,000 USD",
+      "intent_display_name": "project_new_build",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "Remodelación|Remodel|remodelacion",
+      "answer": "¡Perfecto! Hacemos remodelaciones de todo tipo. 🔨\n\n¿Cuál es tu presupuesto aproximado?\n* Menos de $50,000 USD\n* $50,000 - $100,000 USD\n* $100,000 - $250,000 USD\n* $250,000 - $500,000 USD\n* $500,000 - $1,000,000 USD\n* Más de $1,000,000 USD",
+      "intent_display_name": "project_remodel",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "\\$50|\\$100|\\$250|\\$500|\\$1,000|Más de|Menos de|presupuesto",
+      "answer": "Gracias. 📋\n\n¿En cuántos meses te gustaría comenzar?\n* 1-3 meses\n* 3-6 meses\n* 6-12 meses\n* Más de 12 meses",
+      "intent_display_name": "budget_captured",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "meses|months|timeline",
+      "answer": "¿En qué zona te interesa el proyecto?\n* Puerto Vallarta Centro\n* Zona Romántica\n* Marina Vallarta\n* Nuevo Vallarta\n* Bucerías\n* Punta de Mita\n* Sayulita\n* San Pancho\n* La Cruz de Huanacaxtle\n* Otra zona",
+      "intent_display_name": "timeline_captured",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "Puerto Vallarta|Zona Romántica|Marina|Nuevo Vallarta|Bucerías|Punta de Mita|Sayulita|San Pancho|La Cruz|zona",
+      "answer": "¡Perfecto! Para conectarte con el especialista ideal, necesito tus datos de contacto.\n\n¿Cuál es tu nombre completo?",
+      "intent_display_name": "zone_captured",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "defaultFallback",
+      "answer": "Gracias. ¿Cuál es tu número de teléfono o WhatsApp? (incluye código de país, ej: +1 555 123 4567)",
+      "intent_display_name": "name_captured",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "\\+\\d|phone|teléfono|telefono|whatsapp",
+      "answer": "¿Y tu correo electrónico?",
+      "intent_display_name": "phone_captured",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "@|email|correo",
+      "answer": "¡Excelente! 🎉 Hemos registrado tu información.\n\nUn especialista en construcción de PV Construcción te contactará dentro de las próximas **2 horas**.\n\n🔒 Somos una plataforma 100% legal con todas las licencias mexicanas requeridas.\n\n¿Hay algo más en lo que pueda ayudarte?\n* Hablar con alguien ahora\n* Ver nuestros proyectos\n* Conocer nuestras licencias\n* Eso es todo, gracias",
+      "intent_display_name": "email_captured",
+      "language": "es"
+    },
+    {
+      "webhook_enabled": false,
+      "enabled": true,
+      "question": "Hablar con alguien|hablar|agente|agent|human|persona",
+      "answer": "\\agent",
+      "intent_display_name": "handoff_to_human",
+      "language": "es"
+    }
+  ]
+}

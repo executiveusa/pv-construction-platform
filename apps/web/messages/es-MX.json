@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "title": "PV Construcción — Construcción de Confianza en Puerto Vallarta",
+    "description": "Plataforma líder de construcción para inversionistas extranjeros en Puerto Vallarta, Bahía de Banderas y Nayarit. Construcción nueva, remodelación, proyectos de lujo. 100% legal, con licencias mexicanas."
+  },
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "portfolio": "Portafolio",
+    "reviews": "Reseñas",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "blog": "Blog",
+    "legal": "Legal",
+    "switchLang": "English"
+  },
+  "hero": {
+    "badge": "🏗️ La Plataforma de Confianza #1 en Puerto Vallarta",
+    "title": "Construye Tu Sueño en",
+    "titleHighlight": "Puerto Vallarta",
+    "subtitle": "Conectamos inversionistas extranjeros con los mejores constructores certificados de México. 100% legal, transparente y con propósito social.",
+    "cta": "Solicitar Cotización Gratis",
+    "ctaSecondary": "Ver Nuestros Proyectos",
+    "trustLine": "Más de 200 proyectos completados • Licencias mexicanas verificadas • Empresa con propósito social"
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "subtitle": "Ofrecemos una gama completa de servicios de construcción para inversionistas extranjeros y locales en la zona de Puerto Vallarta y Bahía de Banderas.",
+    "newBuild": {
+      "title": "Construcción Nueva",
+      "description": "Desde el diseño hasta la entrega de llaves. Construcciones residenciales y de lujo con materiales de primera calidad y cumplimiento total de permisos."
+    },
+    "remodel": {
+      "title": "Remodelación",
+      "description": "Transformamos tu propiedad existente. Renovaciones completas, actualizaciones de cocina y baño, ampliaciones y mejoras estructurales."
+    },
+    "luxury": {
+      "title": "Proyectos de Lujo",
+      "description": "Villas con vista al mar, casas de playa premium, acabados de alta gama. Para clientes que buscan lo extraordinario."
+    },
+    "commercial": {
+      "title": "Comercial",
+      "description": "Restaurantes, boutique hotels, oficinas y espacios comerciales. Diseño funcional que maximiza tu inversión."
+    },
+    "permits": {
+      "title": "Permisos y Trámites",
+      "description": "Navegamos el sistema de permisos mexicano por ti. Licencias de construcción, impacto ambiental, uso de suelo y más."
+    },
+    "landPurchase": {
+      "title": "Compra de Terreno",
+      "description": "Te asesoramos en la compra legal de terrenos. Fideicomiso bancario, due diligence y verificación de escrituras."
+    }
+  },
+  "trust": {
+    "title": "¿Por Qué Confiar en Nosotros?",
+    "subtitle": "Somos la plataforma más transparente y legalmente establecida para construcción extranjera en Puerto Vallarta.",
+    "licensed": {
+      "title": "100% Licenciados",
+      "description": "RFC registrado, licencia municipal, contratistas con IMSS e INFONAVIT verificados."
+    },
+    "american": {
+      "title": "Equipo Americano-Mexicano",
+      "description": "Entendemos ambas culturas. Comunicación bilingüe y estándares internacionales."
+    },
+    "social": {
+      "title": "Empresa con Propósito Social",
+      "description": "Por cada proyecto, plantamos árboles y reinvertimos en la comunidad. Impacto verificable."
+    },
+    "transparent": {
+      "title": "Transparencia Total",
+      "description": "Seguimiento de permisos en tiempo real, presupuestos detallados y cronogramas claros."
+    }
+  },
+  "leadForm": {
+    "title": "Solicita Tu Cotización Gratis",
+    "subtitle": "Cuéntanos sobre tu proyecto y un especialista te contactará en menos de 2 horas.",
+    "step1": "Tipo de Proyecto",
+    "step2": "Presupuesto y Tiempo",
+    "step3": "Ubicación",
+    "step4": "Datos de Contacto",
+    "projectType": "¿Qué tipo de proyecto necesitas?",
+    "budgetRange": "¿Cuál es tu presupuesto aproximado?",
+    "timeline": "¿En cuántos meses quieres empezar?",
+    "timelineMonths": "meses",
+    "locationZone": "¿En qué zona?",
+    "propertyStatus": "¿Ya tienes la propiedad?",
+    "propertyYes": "Sí, ya tengo la propiedad",
+    "propertyNo": "No, aún busco terreno",
+    "propertyLooking": "Estoy considerando opciones",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "phone": "Teléfono o WhatsApp (con código de país)",
+    "preferredContact": "¿Cómo prefieres que te contactemos?",
+    "preferredLanguage": "¿En qué idioma prefieres comunicarte?",
+    "notes": "Cuéntanos más sobre tu proyecto (opcional)",
+    "submit": "Enviar Solicitud",
+    "next": "Siguiente",
+    "prev": "Anterior",
+    "success": "¡Solicitud Enviada!",
+    "successMessage": "Un especialista te contactará dentro de las próximas 2 horas. Gracias por confiar en PV Construcción.",
+    "error": "Error al enviar. Intenta de nuevo o llámanos directamente."
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "subtitle": "Somos un colectivo americano-mexicano de profesionales de la construcción, unidos por la visión de hacer las cosas bien en Puerto Vallarta.",
+    "mission": "Nuestra Misión",
+    "missionText": "Ser la plataforma de construcción más confiable para inversionistas extranjeros en Puerto Vallarta y Nayarit, creando un impacto social positivo en cada proyecto.",
+    "values": "Nuestros Valores",
+    "legalTitle": "Compromiso Legal",
+    "legalDescription": "Operamos como empresa constituida en México (S. de R.L. de C.V.) con RFC, licencia municipal, registro ante el SAT y contratistas registrados en IMSS. No somos una operación informal — somos la alternativa legal y profesional.",
+    "socialTitle": "Propósito Social",
+    "socialDescription": "Una parte de las ganancias de cada proyecto se reinvierte en la comunidad: plantación de árboles para compensar el impacto del cemento, apoyo a familias locales y transparencia verificable en blockchain."
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "Estamos listos para ayudarte con tu proyecto de construcción en Puerto Vallarta.",
+    "address": "Puerto Vallarta, Jalisco, México",
+    "phone": "Llámanos",
+    "whatsapp": "WhatsApp",
+    "email": "Correo",
+    "hours": "Horario: Lun-Sáb 8:00-18:00 CST"
+  },
+  "footer": {
+    "tagline": "Construcción de confianza para inversionistas extranjeros en Puerto Vallarta, México.",
+    "quickLinks": "Enlaces Rápidos",
+    "legal": "Legal",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "disclaimer": "Aviso Legal",
+    "social": "Síguenos",
+    "copyright": "© 2026 PV Construcción. Todos los derechos reservados.",
+    "socialPurpose": "Empresa con Propósito Social — Una parte de cada proyecto se reinvierte en la comunidad."
+  },
+  "zones": {
+    "puertoVallarta": "Puerto Vallarta",
+    "zonaRomantica": "Zona Romántica",
+    "marinaVallarta": "Marina Vallarta",
+    "nuevoVallarta": "Nuevo Vallarta",
+    "bucerias": "Bucerías",
+    "puntaDeMita": "Punta de Mita",
+    "sayulita": "Sayulita",
+    "sanPancho": "San Pancho",
+    "laCruz": "La Cruz de Huanacaxtle",
+    "loDeMarcos": "Lo de Marcos",
+    "rinconDeGuayabitos": "Rincón de Guayabitos",
+    "mezcales": "Mezcales",
+    "bahiaDeBanderas": "Bahía de Banderas"
+  },
+  "geo": {
+    "metaTitle": "Construcción en {zone} — PV Construcción",
+    "metaDescription": "Servicios de construcción profesional en {zone}. Construcción nueva, remodelación y proyectos de lujo para inversionistas extranjeros. Cotización gratis.",
+    "heading": "Construcción Profesional en",
+    "intro": "¿Buscas construir o remodelar en {zone}? Somos la plataforma de confianza que conecta inversionistas extranjeros con los mejores constructores certificados de la zona.",
+    "cta": "Cotización Gratis para {zone}"
+  },
+  "reviews": {
+    "title": "Lo Que Dicen Nuestros Clientes",
+    "subtitle": "Reseñas verificadas de clientes reales que construyeron sus sueños en Puerto Vallarta.",
+    "verified": "Verificado por SMS",
+    "writeReview": "Escribir una Reseña",
+    "noReviews": "Sé el primero en dejar una reseña."
+  }
+}

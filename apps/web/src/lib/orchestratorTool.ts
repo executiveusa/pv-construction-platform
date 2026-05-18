@@ -1,8 +1,19 @@
-import { tool } from 'ai';
+// Tool definition for orchestration system (Hermes agent integration)
+// Simplified implementation without 'ai' package dependency
 import orchestrator from './orchestrator';
 import workerRunner from './workerRunner';
 
-export const orchestratorTool = tool({
+export interface OrchestratorToolParams {
+  action: 'createJob' | 'getStatus' | 'getWorkers' | 'executeTask' | 'cancelJob';
+  jobType?: 'build' | 'deploy' | 'test' | 'lint' | 'typecheck' | 'ralphy' | 'jcodemunch' | 'uncodixfy';
+  payload?: Record<string, any>;
+  priority?: number;
+  jobId?: string;
+  worker?: 'ralphy' | 'jcodemunch' | 'uncodixfy' | 'typescript' | 'build';
+}
+
+export const orchestratorTool = {
+  name: 'orchestrator',
   description: 'Execute build and development tasks using the orchestration system',
   parameters: {
     type: 'object',
@@ -40,7 +51,7 @@ export const orchestratorTool = tool({
     },
     required: ['action'],
   },
-  execute: async (args) => {
+  execute: async (args: OrchestratorToolParams) => {
     try {
       switch (args.action) {
         case 'createJob':
@@ -183,7 +194,7 @@ export const orchestratorTool = tool({
       };
     }
   },
-});
+};
 
 // Helper functions for common tasks
 export const orchestratorHelpers = {

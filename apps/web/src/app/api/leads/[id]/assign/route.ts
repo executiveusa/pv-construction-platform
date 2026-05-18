@@ -1,80 +1,64 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { CreateAssignmentSchema } from "@pv/shared";
+import { NextRequest, NextResponse } from 'next/server';
+import pool from '@/lib/db';
+import { z } from 'zod';
 
-// POST /api/leads/[id]/assign — assign a contractor to the lead
+const AssignLeadSchema = z.object({
+  contractorId: z.string().uuid('Valid contractor ID required'),
+  notes: z.string().optional(),
+});
+
+// POST — Assign lead to contractor
 export async function POST(
-  req: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const authHeader = req.headers.get("authorization");
-    const expected = process.env.ADMIN_PASSWORD;
-    if (!expected || authHeader !== `Bearer ${expected}`) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-    }
+    const { id } = await params;
+    const body = await request.json();
+    const data = AssignLeadSchema.parse(body);
 
-    const { id: leadId } = await params;
-    const body = await req.json();
+    // TODO: Verify admin authentication
 
-    const parsed = CreateAssignmentSchema.safeParse({
-      lead_id: leadId,
-      ...body,
+    // Create assignment record
+    const assignQuery = `
+      INSERT INTO assignments (lead_id, contractor_id, status, assigned_at)
+      VALUES ($1, $2, 'assigned', NOW())
+      RETURNING *;
+    `;
+
+    const assignResult = await pool.query(assignQuery, [id, data.contractorId]);
+
+    // Update lead status to assigned
+    const updateQuery = `
+      UPDATE leads
+      SET status = 'assigned', notes = $1
+      WHERE id = $2
+      RETURNING *;
+    `;
+
+    const updateResult = await pool.query(updateQuery, [data.notes || null, id]);
+
+    // TODO: Send SMS to contractor
+    // const contractor = await getContractorById(data.contractorId);
+    // await sendSMS(contractor.phone, `New lead assigned: ${lead.full_name}`);
+
+    return NextResponse.json({
+      success: true,
+      message: 'Lead assigned successfully',
+      assignment: assignResult.rows[0],
+      lead: updateResult.rows[0],
     });
-    if (!parsed.success) {
+  } catch (error) {
+    if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Datos inválidos", issues: parsed.error.flatten() },
+        { success: false, errors: error.errors },
         { status: 400 }
       );
     }
 
-    const d = parsed.data;
-
-    // Verify lead exists
-    const lead = await query("SELECT id, status FROM leads WHERE id = $1", [
-      leadId,
-    ]);
-    if (lead.length === 0) {
-      return NextResponse.json(
-        { error: "Lead no encontrado" },
-        { status: 404 }
-      );
-    }
-
-    // Verify contractor exists
-    const contractor = await query(
-      "SELECT id FROM contractors WHERE id = $1 AND verified = true",
-      [d.contractor_id]
-    );
-    if (contractor.length === 0) {
-      return NextResponse.json(
-        { error: "Contratista no encontrado o no verificado" },
-        { status: 404 }
-      );
-    }
-
-    // Create assignment
-    const rows = await query(
-      `INSERT INTO assignments (lead_id, contractor_id, referral_fee, notes)
-       VALUES ($1, $2, $3, $4)
-       RETURNING *`,
-      [leadId, d.contractor_id, d.referral_fee || null, d.notes || null]
-    );
-
-    // Update lead status to assigned
-    await query(
-      "UPDATE leads SET status = 'assigned', updated_at = NOW() WHERE id = $1",
-      [leadId]
-    );
-
+    console.error('Error assigning lead:', error);
     return NextResponse.json(
-      { assignment: rows[0], message: "Contratista asignado" },
-      { status: 201 }
-    );
-  } catch (err) {
-    console.error("POST /api/leads/[id]/assign error:", err);
-    return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { success: false, message: 'Failed to assign lead' },
       { status: 500 }
     );
   }

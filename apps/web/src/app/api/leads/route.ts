@@ -1,117 +1,132 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { notifyContractor, confirmLeadSMS } from "@/lib/twilio";
-import { CreateLeadSchema, isHighValueLead } from "@pv/shared";
+import { NextRequest, NextResponse } from 'next/server';
+import pool from '@/lib/db';
+import { z } from 'zod';
 
-// POST /api/leads — create a new lead
-export async function POST(req: NextRequest) {
+// Lead creation schema
+const CreateLeadSchema = z.object({
+  fullName: z.string().min(2, 'Name required'),
+  email: z.string().email('Valid email required').optional(),
+  phone: z.string().min(10, 'Phone required'),
+  projectType: z.enum(['new_build', 'remodel', 'luxury', 'commercial', 'land_purchase', 'permits_only', 'other']),
+  budgetRange: z.enum(['under_50k', '50k_100k', '100k_250k', '250k_500k', '500k_1m', 'over_1m']).optional(),
+  timelineMonths: z.number().int().positive().optional(),
+  locationZone: z.string().optional(),
+  propertyStatus: z.string().optional(),
+  preferredContact: z.enum(['phone', 'whatsapp', 'email', 'chat']).default('whatsapp'),
+  preferredLanguage: z.string().default('es-MX'),
+  notes: z.string().optional(),
+  source: z.string().default('website'),
+});
+
+type CreateLeadInput = z.infer<typeof CreateLeadSchema>;
+
+// POST — Create a new lead
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    const parsed = CreateLeadSchema.safeParse(body);
+    const body = await request.json();
+    const data = CreateLeadSchema.parse(body);
 
-    if (!parsed.success) {
+    const query = `
+      INSERT INTO leads (
+        full_name, email, phone, project_type, budget_range, 
+        timeline_months, location_zone, property_status, 
+        preferred_contact, preferred_language, notes, source
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+      ) RETURNING id, full_name, email, phone, status, created_at;
+    `;
+
+    const result = await pool.query(query, [
+      data.fullName,
+      data.email || null,
+      data.phone,
+      data.projectType,
+      data.budgetRange || null,
+      data.timelineMonths || null,
+      data.locationZone || null,
+      data.propertyStatus || null,
+      data.preferredContact,
+      data.preferredLanguage,
+      data.notes || null,
+      data.source,
+    ]);
+
+    const lead = result[0];
+
+    // TODO: Send SMS notification to contractor pool
+    // TODO: Create Tiledesk request if configured
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Lead created successfully',
+        lead: {
+          id: lead.id,
+          fullName: lead.full_name,
+          status: lead.status,
+          createdAt: lead.created_at,
+        },
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Datos inválidos", issues: parsed.error.flatten() },
+        { success: false, errors: error.errors },
         { status: 400 }
       );
     }
 
-    const d = parsed.data;
-    const highValue = isHighValueLead(d);
-
-    const rows = await query<{ id: string }>(
-      `INSERT INTO leads
-        (full_name, email, phone, project_type, budget_range,
-         location_zone, property_status, timeline_months, notes,
-         preferred_contact, preferred_language, source)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
-       RETURNING id`,
-      [
-        d.full_name,
-        d.email || null,
-        d.phone || null,
-        d.project_type,
-        d.budget_range || null,
-        d.location_zone || null,
-        d.property_status || null,
-        d.timeline_months || null,
-        d.notes || null,
-        d.preferred_contact || "whatsapp",
-        d.preferred_language || "es-MX",
-        d.source || "website_form",
-      ]
-    );
-
-    const leadId = rows[0]?.id;
-
-    // Fire-and-forget notifications
-    notifyContractor({
-      full_name: d.full_name,
-      phone: d.phone,
-      project_type: d.project_type,
-      budget_range: d.budget_range,
-      location_zone: d.location_zone,
-      is_high_value: highValue,
-      leadId: leadId,
-    }).catch(console.error);
-
-    // Confirm to the lead via SMS
-    if (d.phone) {
-      confirmLeadSMS(d.phone, d.full_name, d.preferred_language || "es-MX").catch(
-        console.error
-      );
-    }
-
+    console.error('Lead creation error:', error);
     return NextResponse.json(
-      { id: leadId, high_value: highValue, message: "Lead creado" },
-      { status: 201 }
-    );
-  } catch (err) {
-    console.error("POST /api/leads error:", err);
-    return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { success: false, message: 'Failed to create lead' },
       { status: 500 }
     );
   }
 }
 
-// GET /api/leads — list leads (admin only)
-export async function GET(req: NextRequest) {
+// GET — List leads (admin only)
+export async function GET(request: NextRequest) {
   try {
-    const authHeader = req.headers.get("authorization");
-    const expected = process.env.ADMIN_PASSWORD;
-    if (!expected || authHeader !== `Bearer ${expected}`) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-    }
+    // TODO: Add authentication/authorization check
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100);
+    const offset = parseInt(searchParams.get('offset') || '0');
 
-    const status = req.nextUrl.searchParams.get("status");
-    const limit = Math.min(
-      parseInt(req.nextUrl.searchParams.get("limit") || "50"),
-      200
-    );
-    const offset = parseInt(req.nextUrl.searchParams.get("offset") || "0");
-
-    let sql = "SELECT * FROM leads";
+    let whereClause = '';
     const params: unknown[] = [];
 
-    if (status) {
+    if (status && status !== 'all') {
+      whereClause = 'WHERE status = $1';
       params.push(status);
-      sql += ` WHERE status = $${params.length}`;
     }
 
-    sql += " ORDER BY created_at DESC";
-    params.push(limit);
-    sql += ` LIMIT $${params.length}`;
-    params.push(offset);
-    sql += ` OFFSET $${params.length}`;
+    const query = `
+      SELECT 
+        id, full_name, email, phone, project_type, budget_range,
+        timeline_months, location_zone, status, created_at, updated_at
+      FROM leads
+      ${whereClause}
+      ORDER BY created_at DESC
+      LIMIT $${params.length + 1} OFFSET $${params.length + 2};
+    `;
 
-    const rows = await query(sql, params);
+    params.push(limit, offset);
 
-    return NextResponse.json({ leads: rows, count: rows.length });
-  } catch (err) {
-    console.error("GET /api/leads error:", err);
+    const leads = await pool.query(query, params);
+
+    return NextResponse.json({
+      success: true,
+      leads,
+      count: leads.length,
+      limit,
+      offset,
+    });
+  } catch (error) {
+    console.error('Error fetching leads:', error);
     return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { success: false, message: 'Failed to fetch leads' },
       { status: 500 }
     );
   }

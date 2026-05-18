@@ -46,8 +46,8 @@ module.exports = {
         terracotta: { DEFAULT: "#C75B39", light: "#E07A5F", dark: "#9B3D22" },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        heading: ["var(--font-heading)", "system-ui", "sans-serif"],
+        sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

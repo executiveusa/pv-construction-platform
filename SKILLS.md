@@ -1,8 +1,124 @@
 # PV Construction Platform - Skills Registry
 
-This document catalogs available agent skills and capabilities for developing, testing, and deploying the PV construction platform. Skills are organized by domain (Frontend, Backend, Deployment, Testing) with triggering conditions and tool dependencies.
+This document catalogs available agent skills and capabilities for developing, testing, and deploying the PV construction platform. Skills are organized by domain (Frontend, Backend, Deployment, Testing, AI Automation) with triggering conditions and tool dependencies.
+
+## Master Skills Index
+
+- **Automation & Code Generation**: Ralphy, jcodemunch-MCP, Pauli-Uncodixfy, matt-pocock/skills
+- **Frontend & Design**: Browser-harness, uncodixfy, frontend-design
+- **Backend & Data**: Paperclip, Supabase MCP, mcp2cli
+- **Code Analysis**: ast-grep-MCP, comprehensive-review
+- **E2E Testing**: Browser automation, E2E test framework
+- **Deployment**: opensrc (Vercel labs)
+
+---
+
+## AI Automation & Code Generation Skills
+
+### Ralphy - Autonomous Task Execution
+**Repository**: https://github.com/michaelshimeles/ralphy.git  
+**When to use**: Automating multi-step development tasks, PRD-based batch execution, autonomous coding workflows, continuous task execution without human intervention.
+
+**Capabilities**:
+- Execute complex tasks from natural language descriptions
+- Maintain context across multiple sub-tasks
+- Generate test suites, documentation, migrations
+- Orchestrate Ralphy + jcodemunch + Uncodixfy workflows
+
+**Triggering phrases**:
+- "execute complete build plan"
+- "automate this workflow"
+- "run batch task generation"
+- "create automated tests"
+
+---
+
+### jcodemunch-MCP - Token Compression for LLMs
+**Repository**: https://github.com/jgravelle/jcodemunch-mcp.git  
+**When to use**: Optimizing prompt context, compressing large codebases, reducing token usage in LLM calls, efficient code search and indexing.
+
+**Capabilities**:
+- Compress source code while preserving semantics
+- Index entire projects for fast search
+- Reduce LLM context overhead by 70-90%
+- Generate efficient code summaries
+
+**Integration**: Automatically triggered with Ralphy for token-efficient task execution
+
+---
+
+### Pauli-Uncodixfy - UI/UX Token Optimization
+**Repository**: https://github.com/executiveusa/pauli-Uncodixfy.git  
+**When to use**: Enforcing clean, human-designed UI patterns, preventing common design anti-patterns, saving tokens on design decisions.
+
+**Capabilities**:
+- Ban glassmorphism, pill-button overload, gradient abuse
+- Enforce Emerald Tablet design consistency
+- Optimize component tokens
+- Generate design-compliant components
+
+**Triggering phrases**:
+- "clean up this UI"
+- "apply design rules"
+- "enforce design consistency"
+
+---
+
+### Matt Pocock's Skills - TypeScript & Testing
+**Repository**: https://github.com/mattpocock/skills.git  
+**When to use**: Advanced TypeScript patterns, testing strategies, type safety, performance optimization.
+
+**Capabilities**:
+- Expert TypeScript patterns and utilities
+- Testing best practices and frameworks
+- Type inference and safety techniques
+- Performance profiling skills
+
+---
+
+### Pauli-Taste-Skill - Taste-Based Code Generation
+**Repository**: git@github.com:executiveusa/pauli-taste-skill.git  
+**When to use**: Generating code that matches project aesthetics and preferences, maintaining code taste consistency.
+
+**Capabilities**:
+- Learn codebase taste and style
+- Generate code matching project patterns
+- Enforce consistent code aesthetics
+
+---
+
+### Pauli-Blog - Documentation & Narrative Generation
+**Repository**: git@github.com:executiveusa/pauli-blog.git  
+**When to use**: Creating narratives, documentation, blog posts, API documentation, README generation.
+
+**Capabilities**:
+- Generate high-quality narratives
+- Create technical documentation
+- Blog post and tutorial generation
+- API documentation from code
+
+---
 
 ## Frontend Skills
+
+### Browser-Harness - Advanced Browser Automation
+**Repository**: https://github.com/browser-use/browser-harness.git  
+**When to use**: Complex browser automation, multi-step workflows, advanced form interactions, screenshot testing, web scraping.
+
+**Capabilities**:
+- Advanced Playwright integration
+- Multi-tab coordination
+- Screenshot and video capture
+- Network interception and mocking
+- Cookie and session management
+
+**Triggering phrases**:
+- "test this complex workflow"
+- "automate multi-step browser task"
+- "capture page state"
+- "validate user journey"
+
+---
 
 ### Browser Automation & Testing
 **When to use**: Testing web interfaces, form interactions, responsive design validation, login flows, screenshot capture, web scraping, automating user workflows.
@@ -65,7 +181,88 @@ This document catalogs available agent skills and capabilities for developing, t
 
 ---
 
+## Testing Skills
+
+### E2E Testing Framework
+**When to use**: End-to-end testing workflows, test suite generation, test automation, CI/CD testing pipelines.
+
+**Available Tools**:
+- Playwright for browser automation
+- Jest for unit and integration testing
+- Browser-harness for advanced scenarios
+- Network mocking and interception
+
+**Example E2E workflow**:
+```typescript
+1. Launch browser with Browser-harness
+2. Navigate to app
+3. Fill lead form with test data
+4. Submit form
+5. Verify API call received
+6. Check database entry created
+7. Verify confirmation email sent
+8. Screenshot success state
+```
+
+**Triggering phrases**:
+- "write e2e tests for the form"
+- "create test suite"
+- "test the entire user journey"
+- "generate integration tests"
+
+---
+
 ## Backend Skills
+
+### Paperclip - Knowledge Management & Context
+**Repository**: https://github.com/paperclipai/paperclip.git  
+**When to use**: Managing knowledge bases, context preservation, documentation indexing, API documentation, system design documentation.
+
+**Capabilities**:
+- Index and search knowledge bases
+- Context preservation across sessions
+- API documentation generation
+- System design documentation
+- Markdown and technical documentation management
+
+**Triggering phrases**:
+- "index this documentation"
+- "search the knowledge base"
+- "create system documentation"
+- "generate API docs"
+
+---
+
+### Supabase MCP - Database & Realtime Integration
+**Repository**: https://github.com/supabase-community/supabase-mcp.git  
+**When to use**: Database operations beyond PostgreSQL, realtime subscriptions, authentication, file storage, edge functions.
+
+**Capabilities**:
+- Supabase database operations
+- Realtime event subscriptions
+- Authentication management
+- File storage integration
+- Edge function deployment
+
+**Triggering phrases**:
+- "set up Supabase auth"
+- "create realtime subscription"
+- "upload file to storage"
+- "create database table"
+
+---
+
+### mcp2cli - CLI Tool Integration
+**Repository**: https://github.com/knowsuchagency/mcp2cli.git  
+**When to use**: Integrating CLI tools with MCP, command-line automation, system commands, build tools integration.
+
+**Capabilities**:
+- Execute CLI commands from MCP context
+- Capture command output
+- Chain CLI operations
+- Build tool automation
+
+---
 
 ### API Development & Validation
 **When to use**: Building REST endpoints, validating request/response data, database queries, third-party integrations.
@@ -182,7 +379,47 @@ npm run start              # Start production server
 
 ---
 
+## Code Analysis & Search Skills
+
+### ast-grep-MCP - AST-Based Code Search
+**Repository**: https://github.com/ast-grep/ast-grep-mcp.git  
+**When to use**: Advanced code search, refactoring, code pattern matching, automated fixes, multi-file transformations.
+
+**Capabilities**:
+- Pattern-based code search using AST
+- Automated code refactoring
+- Find all usages of patterns
+- Cross-file modifications
+- Language-agnostic search
+
+**Triggering phrases**:
+- "find all instances of this pattern"
+- "refactor this code pattern"
+- "search for deprecated APIs"
+- "find unused variables"
+
+---
+
 ## Cross-Domain Skills
+
+### opensrc - Vercel Labs Deployment & OSS Best Practices
+**Repository**: https://github.com/vercel-labs/opensrc.git  
+**When to use**: Deploying to Vercel, Next.js optimization, open-source best practices, performance optimization, deployment strategies.
+
+**Capabilities**:
+- Vercel deployment automation
+- Next.js performance optimization
+- OSS project best practices
+- CI/CD pipeline setup
+- Deployment preview generation
+
+**Triggering phrases**:
+- "deploy to Vercel"
+- "optimize Next.js performance"
+- "set up CI/CD for OSS"
+- "create deployment previews"
+
+---
 
 ### Planning & Exploration
 **When to use**: Understanding the codebase, planning implementation, exploring dependencies.
@@ -296,13 +533,20 @@ Yes, **full browser control is available**:
 
 | Task | Skill / Tool |
 |------|------|
+| Automate multi-step workflow | Ralphy + jcodemunch-MCP |
 | Design a new page | `frontend-design` or `uncodixfy` |
-| Test web interaction | Browser control tools (`open_browser_page`, `click_element`, etc.) |
+| Test web interaction | Browser-harness or browser control tools |
+| Write E2E tests | E2E Testing Framework + Browser automation |
+| Optimize code for LLM context | jcodemunch-MCP |
 | Build API endpoint | API development best practices + Zod validation |
 | Add database table | Database migrations + Postgres |
-| Deploy to production | Infrastructure docs + Docker Compose |
+| Search code patterns | ast-grep-MCP |
+| Deploy to production | opensrc + Vercel deployment |
 | Review code | `code-review` or `comprehensive-review` |
 | Create PR | `mcp_io_github_git_create_pull_request` |
+| Manage knowledge base | Paperclip |
+| Generate documentation | Pauli-Blog |
+| Enforce UI consistency | Pauli-Uncodixfy |
 | Explore codebase | `explore_subagent` or `plan` |
 | Fix a bug | Browser testing + code review + targeted fix |
 

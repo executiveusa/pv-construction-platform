@@ -3,7 +3,7 @@ import pool from './db';
 
 export interface Job {
   id: string;
-  type: 'build' | 'deploy' | 'test' | 'lint' | 'typecheck';
+  type: 'build' | 'deploy' | 'test' | 'lint' | 'typecheck' | 'ralphy' | 'jcodemunch' | 'uncodixfy';
   status: 'pending' | 'running' | 'completed' | 'failed';
   priority: number;
   payload: any;
@@ -124,7 +124,7 @@ export class Orchestrator {
     const { spawn } = require('child_process');
     
     return new Promise((resolve, reject) => {
-      const process = spawn('npm', ['run', 'build'], { 
+      const childProcess = spawn('npm', ['run', 'build'], { 
         cwd: path || process.cwd(),
         stdio: 'pipe'
       });
@@ -132,7 +132,7 @@ export class Orchestrator {
       let stdout = '';
       let stderr = '';
       
-      process.stdout.on('data', (data: Buffer) => {
+      childProcess.stdout.on('data', (data: Buffer) => {
         stdout += data.toString();
       });
       
@@ -155,7 +155,7 @@ export class Orchestrator {
     const { spawn } = require('child_process');
     
     return new Promise((resolve, reject) => {
-      const process = spawn('npx', ['tsc', '--noEmit'], { 
+      const childProcess = spawn('npx', ['tsc', '--noEmit'], { 
         cwd: path || process.cwd(),
         stdio: 'pipe'
       });
@@ -186,7 +186,7 @@ export class Orchestrator {
     const { spawn } = require('child_process');
     
     return new Promise((resolve, reject) => {
-      const process = spawn('npx', ['eslint', '.'], { 
+      const childProcess = spawn('npx', ['eslint', '.'], { 
         cwd: path || process.cwd(),
         stdio: 'pipe'
       });
@@ -194,15 +194,15 @@ export class Orchestrator {
       let stdout = '';
       let stderr = '';
       
-      process.stdout.on('data', (data: Buffer) => {
+      childProcess.stdout.on('data', (data: Buffer) => {
         stdout += data.toString();
       });
       
-      process.stderr.on('data', (data: Buffer) => {
+      childProcess.stderr.on('data', (data: Buffer) => {
         stderr += data.toString();
       });
       
-      process.on('close', (code: number) => {
+      childProcess.on('close', (code: number) => {
         resolve({ success: code === 0, stdout, stderr, code });
       });
     });
@@ -214,7 +214,7 @@ export class Orchestrator {
     
     return new Promise((resolve, reject) => {
       const ralphyPath = `${process.cwd()}/ralphy/cli/bin.js`;
-      const process = spawn('node', [ralphyPath, command], { 
+      const childProcess = spawn('node', [ralphyPath, command], { 
         cwd: path || process.cwd(),
         stdio: 'pipe'
       });
@@ -222,15 +222,15 @@ export class Orchestrator {
       let stdout = '';
       let stderr = '';
       
-      process.stdout.on('data', (data: Buffer) => {
+      childProcess.stdout.on('data', (data: Buffer) => {
         stdout += data.toString();
       });
       
-      process.stderr.on('data', (data: Buffer) => {
+      childProcess.stderr.on('data', (data: Buffer) => {
         stderr += data.toString();
       });
       
-      process.on('close', (code: number) => {
+      childProcess.on('close', (code: number) => {
         if (code === 0) {
           resolve({ success: true, stdout, stderr });
         } else {
@@ -246,22 +246,22 @@ export class Orchestrator {
     
     return new Promise((resolve, reject) => {
       const jcodemunchPath = `${process.cwd()}/jcodemunch-mcp/index.js`;
-      const process = spawn('node', [jcodemunchPath, '--input', input, '--output', output], { 
+      const childProcess = spawn('node', [jcodemunchPath, '--input', input, '--output', output], { 
         stdio: 'pipe'
       });
       
       let stdout = '';
       let stderr = '';
       
-      process.stdout.on('data', (data: Buffer) => {
+      childProcess.stdout.on('data', (data: Buffer) => {
         stdout += data.toString();
       });
       
-      process.stderr.on('data', (data: Buffer) => {
+      childProcess.stderr.on('data', (data: Buffer) => {
         stderr += data.toString();
       });
       
-      process.on('close', (code: number) => {
+      childProcess.on('close', (code: number) => {
         if (code === 0) {
           resolve({ success: true, stdout, stderr });
         } else {
@@ -277,22 +277,22 @@ export class Orchestrator {
     
     return new Promise((resolve, reject) => {
       const uncodixfyPath = `${process.cwd()}/pauli-Uncodixfy/index.js`;
-      const process = spawn('node', [uncodixfyPath, input, output], { 
+      const childProcess = spawn('node', [uncodixfyPath, input, output], { 
         stdio: 'pipe'
       });
       
       let stdout = '';
       let stderr = '';
       
-      process.stdout.on('data', (data: Buffer) => {
+      childProcess.stdout.on('data', (data: Buffer) => {
         stdout += data.toString();
       });
       
-      process.stderr.on('data', (data: Buffer) => {
+      childProcess.stderr.on('data', (data: Buffer) => {
         stderr += data.toString();
       });
       
-      process.on('close', (code: number) => {
+      childProcess.on('close', (code: number) => {
         if (code === 0) {
           resolve({ success: true, stdout, stderr });
         } else {

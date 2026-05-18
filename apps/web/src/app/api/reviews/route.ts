@@ -91,9 +91,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      reviews,
-      averageRating: parseFloat(avgResult[0]?.avg_rating || 0),
-      totalReviews: parseInt(avgResult[0]?.total || 0),
+      reviews: reviews.rows,
+      averageRating: parseFloat(avgResult.rows[0]?.avg_rating || 0),
+      totalReviews: parseInt(avgResult.rows[0]?.total || 0),
     });
   } catch (error) {
     console.error('Error fetching reviews:', error);

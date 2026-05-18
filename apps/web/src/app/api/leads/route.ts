@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       data.source,
     ]);
 
-    const lead = result[0];
+    const lead = result.rows[0];
 
     // TODO: Send SMS notification to contractor pool
     // TODO: Create Tiledesk request if configured
@@ -118,8 +118,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      leads,
-      count: leads.length,
+      leads: leads.rows,
+      count: leads.rows.length,
       limit,
       offset,
     });

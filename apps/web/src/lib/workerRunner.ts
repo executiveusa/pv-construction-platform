@@ -282,4 +282,4 @@ export class WorkerRunner {
 }
 
 // Export singleton instance
-export const workerRunner = WorkerRunner.getInstance();
+export default WorkerRunner.getInstance();

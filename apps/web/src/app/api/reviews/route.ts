@@ -1,100 +1,104 @@
-import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import { CreateReviewSchema } from "@pv/shared";
-import { sendReviewVerificationSMS } from "@/lib/twilio";
+import { NextRequest, NextResponse } from 'next/server';
+import pool from '@/lib/db';
+import { z } from 'zod';
 
-function generateVerificationCode(): string {
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
+const CreateReviewSchema = z.object({
+  leadId: z.string().uuid().optional(),
+  contractorId: z.string().uuid().optional(),
+  authorName: z.string().min(2),
+  rating: z.number().int().min(1).max(5),
+  text: z.string().min(10),
+  authorPhone: z.string().optional(),
+  isVerifiedPurchase: z.boolean().default(false),
+});
 
-// POST /api/reviews — create a review (public)
-export async function POST(req: NextRequest) {
+// POST — Create review
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    const parsed = CreateReviewSchema.safeParse(body);
+    const body = await request.json();
+    const data = CreateReviewSchema.parse(body);
 
-    if (!parsed.success) {
+    const query = `
+      INSERT INTO reviews (lead_id, contractor_id, author_name, rating, text, author_phone, is_verified_purchase, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending')
+      RETURNING *;
+    `;
+
+    const result = await pool.query(query, [
+      data.leadId || null,
+      data.contractorId || null,
+      data.authorName,
+      data.rating,
+      data.text,
+      data.authorPhone || null,
+      data.isVerifiedPurchase,
+    ]);
+
+    // TODO: Send SMS verification link to author
+
+    return NextResponse.json(
+      { success: true, review: result.rows[0], message: 'Review submitted for verification' },
+      { status: 201 }
+    );
+  } catch (error) {
+    if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Datos inválidos", issues: parsed.error.flatten() },
+        { success: false, errors: error.errors },
         { status: 400 }
       );
     }
 
-    const d = parsed.data;
-    const code = generateVerificationCode();
-
-    const rows = await query(
-      `INSERT INTO reviews
-        (lead_id, contractor_id, rating, title, body, reviewer_name, reviewer_phone, photos, verification_code, language)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-       RETURNING id`,
-      [
-        d.lead_id || null,
-        d.contractor_id || null,
-        d.rating,
-        d.title || null,
-        d.body || null,
-        d.reviewer_name,
-        d.reviewer_phone || null,
-        d.photos ? JSON.stringify(d.photos) : null,
-        code,
-        d.language || "es-MX",
-      ]
-    );
-
-    // Send SMS with verification code
-    if (d.reviewer_phone) {
-      await sendReviewVerificationSMS(
-        d.reviewer_phone,
-        code,
-        d.language || "es-MX"
-      ).catch(console.error);
-    }
-
+    console.error('Error creating review:', error);
     return NextResponse.json(
-      {
-        id: rows[0],
-        message: "Reseña creada. Revisa tu SMS para verificación.",
-        verification_pending: true,
-      },
-      { status: 201 }
-    );
-  } catch (err) {
-    console.error("POST /api/reviews error:", err);
-    return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { success: false, message: 'Failed to create review' },
       { status: 500 }
     );
   }
 }
 
-// GET /api/reviews — list verified reviews (public)
-export async function GET(req: NextRequest) {
+// GET — List verified reviews
+export async function GET(request: NextRequest) {
   try {
-    const contractorId = req.nextUrl.searchParams.get("contractor_id");
-    const limit = Math.min(
-      parseInt(req.nextUrl.searchParams.get("limit") || "20"),
-      100
-    );
+    const { searchParams } = new URL(request.url);
+    const contractorId = searchParams.get('contractorId');
+    const minRating = parseInt(searchParams.get('minRating') || '0');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100);
 
-    let sql = "SELECT id, rating, title, body, reviewer_name, created_at FROM reviews WHERE verified = true AND published = true";
-    const params: unknown[] = [];
+    let query = "SELECT * FROM reviews WHERE status = 'verified' AND rating >= $1";
+    const params: unknown[] = [minRating];
 
     if (contractorId) {
+      query += ` AND contractor_id = $${params.length + 1}`;
       params.push(contractorId);
-      sql += ` AND contractor_id = $${params.length}`;
     }
 
-    sql += " ORDER BY created_at DESC";
+    query += ` ORDER BY created_at DESC LIMIT $${params.length + 1}`;
     params.push(limit);
-    sql += ` LIMIT $${params.length}`;
 
-    const rows = await query(sql, params);
-    return NextResponse.json({ reviews: rows });
-  } catch (err) {
-    console.error("GET /api/reviews error:", err);
+    const reviews = await pool.query(query, params);
+
+    // Calculate average rating
+    const avgQuery = `
+      SELECT AVG(rating) as avg_rating, COUNT(*) as total
+      FROM reviews
+      WHERE status = 'verified' ${contractorId ? `AND contractor_id = $1` : ''}
+    `;
+
+    const avgResult = await pool.query(
+      avgQuery,
+      contractorId ? [contractorId] : []
+    );
+
+    return NextResponse.json({
+      success: true,
+      reviews,
+      averageRating: parseFloat(avgResult[0]?.avg_rating || 0),
+      totalReviews: parseInt(avgResult[0]?.total || 0),
+    });
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
     return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { success: false, message: 'Failed to fetch reviews' },
       { status: 500 }
     );
   }

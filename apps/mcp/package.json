@@ -1,0 +1,12 @@
+{
+  "name": "@pv/mcp",
+  "version": "0.1.0",
+  "description": "PV Construction Platform MCP Server",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "python -m jcodemunch_mcp",
+    "install-deps": "pip install jcodemunch-mcp",
+    "index": "python -m jcodemunch_mcp index /path/to/project"
+  },
+  "dependencies": {}
+}

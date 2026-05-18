@@ -1,0 +1,53 @@
+{
+  "name": "pv-construction-platform-android",
+  "version": "1.0.0",
+  "description": "Android control interface for PV Construction Platform build",
+  "main": "termux-build.sh",
+  "scripts": {
+    "build": "./termux-build.sh",
+    "build:phase1": "./termux-build.sh 1",
+    "build:phase2": "./termux-build.sh 2",
+    "build:phase3": "./termux-build.sh 3",
+    "build:phase4": "./termux-build.sh 4",
+    "build:phase5": "./termux-build.sh 5",
+    "build:phase6": "./termux-build.sh 6",
+    "build:phase7": "./termux-build.sh 7",
+    "monitor": "tail -f build.log",
+    "reset": "git reset --hard HEAD && rm -rf .next node_modules package-lock.json && npm install",
+    "status": "echo 'Build status:' && cat build.log | tail -5"
+  },
+  "keywords": [
+    "android",
+    "termux",
+    "build-automation",
+    "ralphy",
+    "jcodemunch",
+    "paul-superpowers"
+  ],
+  "author": "PV Construction Platform Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/pv-construction-platform.git"
+  },
+  "dependencies": {
+    "ralphy": "^latest",
+    "jcodemunch-mcp": "^latest",
+    "paulsuperpowers": "^latest"
+  },
+  "termux": {
+    "packages": [
+      "nodejs",
+      "git",
+      "python3",
+      "termux-x11"
+    ],
+    "setup": [
+      "pkg update && pkg upgrade",
+      "pkg install nodejs git python3 termux-x11",
+      "npm install",
+      "cd ralphy && npm install",
+      "cd ../jcodemunch-mcp && npm install"
+    ]
+  }
+}

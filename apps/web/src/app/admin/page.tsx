@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { getApiUrl } from "@/lib/api";
 
 interface Lead {
   id: string;
@@ -31,7 +32,7 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/leads?limit=1", {
+      const res = await fetch(getApiUrl("/api/leads?limit=1"), {
         headers: { Authorization: `Bearer ${password}` },
       });
       if (res.ok) {
@@ -53,8 +54,8 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const url = statusFilter
-        ? `/api/leads?status=${statusFilter}&limit=100`
-        : "/api/leads?limit=100";
+        ? getApiUrl(`/api/leads?status=${statusFilter}&limit=100`)
+        : getApiUrl("/api/leads?limit=100");
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${t}` },
       });
@@ -80,7 +81,7 @@ export default function AdminPage() {
   async function updateLeadStatus(id: string, status: string) {
     const t = localStorage.getItem("admin_token") || password;
     try {
-      await fetch(`/api/leads/${id}`, {
+      await fetch(getApiUrl(`/api/leads/${id}`), {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${t}`,

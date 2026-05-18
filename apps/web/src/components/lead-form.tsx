@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getApiUrl } from "@/lib/api";
 
 const PROJECT_TYPES = [
   { value: "new_build", es: "Construcción nueva", en: "New Build" },
@@ -89,7 +90,7 @@ export function LeadForm() {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch("/api/leads", {
+      const res = await fetch(getApiUrl("/api/leads"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

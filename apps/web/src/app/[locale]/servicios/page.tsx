@@ -1,15 +1,19 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 
-export default async function ServiciosPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+export default function ServiciosPage() {
+  const params = useParams();
+  const locale = params.locale as string;
+  
+  useEffect(() => {
+    setRequestLocale(locale);
+  }, [locale]);
   const t = useTranslations('services');
   const hero = useTranslations('hero');
 

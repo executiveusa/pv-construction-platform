@@ -1,6 +1,11 @@
 # PV Construction Platform - Skills Registry
 
-This document catalogs available agent skills and capabilities for developing, testing, and deploying the PV construction platform. Skills are organized by domain (Frontend, Backend, Deployment, Testing, AI Automation) with triggering conditions and tool dependencies.
+This document catalogs available agent skills and capabilities for developing, testing, and deploying the PV construction platform. It now points to the `skills/` folder for category-level skill files that agents can lazy-load.
+
+## Skills Folder
+
+- Read `skills/README.md` for a categorized index of available skill domains.
+- Use `skills/llm.txt` as the agent-visible summary of this skill metadata.
 
 ## Master Skills Index
 

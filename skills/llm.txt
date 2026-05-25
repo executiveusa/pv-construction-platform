@@ -1,0 +1,3 @@
+This skills directory contains category-level markdown for AI automation, token optimization, frontend, backend, testing, deployment, and directory infrastructure.
+Agents may read one category file at a time to reduce token load.
+The root `SKILLS.md` remains the master index, while `skills/README.md` provides a fast agent-visible overview of available skill domains.

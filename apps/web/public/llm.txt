@@ -1,0 +1,5 @@
+This website is the public frontend for the PV Construction Platform directory and lead capture system.
+
+The user interface is built with Next.js 15 App Router, Tailwind CSS, and bilingual routing via next-intl.
+
+The site includes an agentic backend dashboard at `/dashboard` for managing multitenant directory clients and landing pages.

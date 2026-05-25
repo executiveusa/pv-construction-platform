@@ -1,0 +1,10 @@
+PV Construction Platform is a bilingual AI-enabled construction lead generation system for Puerto Vallarta and Nayarit.
+
+This repository includes:
+- a Next.js 15 App Router website at `apps/web`
+- PostgreSQL backend integration via `apps/web/src/lib/db.ts`
+- multitenant tenant and directory support in `infra/postgres/migrations/006_multitenancy.sql`
+- new dashboard scaffolding for directory management and tenant onboarding
+- agent-ready skill metadata under `skills/`, including `skills/llm.txt`
+
+The primary objective is to build an agentic multi-tenant directory that generates client landing pages, captures leads, and maintains trust through clean, searchable content.

@@ -44,3 +44,5 @@ infra/postgres/data/
 *.tsbuildinfo
 next-env.d.ts
 \n# Local clone artifacts\nralphy/\njcodemunch-mcp/\npaulsuperpowers/\npauli-Uncodixfy/\ntermux-app/\npaperclip-backend/\nskills/\nsynthia-superdesign/\nfree-claude-code-temp/\n.tools/\nserver.log\ntest.txt\n
+.vercel
+.env*.local

@@ -50,6 +50,25 @@
       "title": "Land Purchase",
       "description": "We advise you on legal land purchases. Bank trust (fideicomiso), due diligence and title verification."
     }
+    ,"designStudios": {
+      "title": "Design Studios",
+      "description": "Custom design studios with branding, UI/UX, and visual identity services."
+    },
+    "marketplaces": {
+      "title": "Marketplaces",
+      "description": "Multi‑vendor marketplace platforms with integrated payments and reviews."
+    },
+    "directories": {
+      "title": "Directories",
+      "description": "Advanced directory listings with geo‑filtering and lead generation."
+    },
+    "process": {
+      "title": "Our Process",
+      "description": "Discovery, Design, Development, Launch – a streamlined workflow."
+    },
+    "cta": "Get Started",
+    "process": "Our Process",
+    "ctaDescription": "Reach out now and let us bring your vision to life."
   },
   "trust": {
     "title": "Why Trust Us?",

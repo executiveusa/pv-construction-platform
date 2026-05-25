@@ -50,6 +50,25 @@
       "title": "Compra de Terreno",
       "description": "Te asesoramos en la compra legal de terrenos. Fideicomiso bancario, due diligence y verificación de escrituras."
     }
+    ,"designStudios": {
+      "title": "Estudios de Diseño",
+      "description": "Estudios de diseño personalizados con branding, UI/UX e identidad visual."
+    },
+    "marketplaces": {
+      "title": "Mercados",
+      "description": "Plataformas de mercado multi‑vendedor con pagos integrados y reseñas."
+    },
+    "directories": {
+      "title": "Directorios",
+      "description": "Listados avanzados con filtros geo y generación de leads."
+    },
+    "process": {
+      "title": "Nuestro Proceso",
+      "description": "Descubrimiento, Diseño, Desarrollo, Lanzamiento – flujo de trabajo optimizado."
+    },
+    "cta": "Comienza Ahora",
+    "process": "Nuestro Proceso",
+    "ctaDescription": "Comunícate ahora y hagamos realidad tu visión."
   },
   "trust": {
     "title": "¿Por Qué Confiar en Nosotros?",

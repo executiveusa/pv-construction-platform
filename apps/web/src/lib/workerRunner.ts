@@ -212,7 +212,7 @@ export class WorkerRunner {
     return this.executeWorker({
       type: 'jcodemunch',
       command: input,
-      args: [output],
+      args: output ? [output] : [],
       cwd,
     });
   }
@@ -221,7 +221,7 @@ export class WorkerRunner {
     return this.executeWorker({
       type: 'uncodixfy',
       command: input,
-      args: [output],
+      args: output ? [output] : [],
       cwd,
     });
   }
